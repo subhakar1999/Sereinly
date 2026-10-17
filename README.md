@@ -1,79 +1,80 @@
 # Sereinly
 
-A gentle mental-health self-help companion with breathing and grounding tools, a quiet library, mood reflections, journaling, and an optional encrypted personal vault.
+**A little less noise. A little more you.**
 
-## Deploy to Vercel
+Visit the app: [**sereinly.vercel.app**](https://sereinly.vercel.app/)
 
-Deploy directly from GitHub using the Vercel website. You can complete these steps in your browser.
+Sereinly is a mental-health self-help companion designed to offer a gentle place to pause, reflect, and take a manageable next step. It brings together interactive exercises, mood tracking, journaling, and educational notes in a calm, responsive interface.
 
-### 1. Sign in to Vercel
+You can explore without creating an account. Choose what feels helpful, skip what does not, and move at your own pace.
 
-Open [Vercel](https://vercel.com/) and sign in with GitHub. For an eligible personal, non-commercial project, choose the free Hobby plan. It has usage limits; commercial projects require a suitable paid plan. See the current [Hobby plan details](https://vercel.com/docs/plans/hobby).
+## What you can do
 
-### 2. Import the repository
+### Take a quiet moment
 
-1. In the Vercel dashboard, select **Add New → Project**.
-2. Under **Import Git Repository**, find [subhakar1999/Sereinly](https://github.com/subhakar1999/Sereinly).
-3. If it is missing, use the GitHub account or app-permissions option to grant Vercel access to this repository.
-4. Select **Import** and choose a project name, such as `sereinly` if available.
+- Try a guided quiet minute with a breathing-flower visual and start/pause controls.
+- Turn optional soft-rain audio on or off; sound stays off until you choose it.
+- Explore an interactive support map with paths for calm, grounding, reflection, focus, low energy, and urge surfing.
 
-### 3. Confirm the build settings
+### Find a tool for how you feel
 
-Vercel should detect Vite. Use these settings for this repository:
-
-| Setting | Value |
+| Tool | What it offers |
 | --- | --- |
-| Framework preset | **Vite** |
-| Root directory | Repository root (`./`); do not select `src` |
-| Install command | `npm ci` |
-| Build command | `npm run build` |
-| Output directory | `dist` |
-| Node.js version | **24.x** |
-| Environment variables | None required for the current app |
+| **Breathing space** | Visual pacing for box breathing, 4–7–8 breathing, and physiological sighs, with optional sound and supported-device haptic cues. |
+| **Sensory grounding** | A guided 5–4–3–2–1 exercise, with space to write observations and the option to skip a sense. |
+| **Thought challenger** | A five-step reflection covering a situation, automatic thought, thinking patterns, evidence, and a balanced perspective. |
+| **The spoon menu** | Small self-care actions matched to zero, low, or medium energy. |
+| **Task breakdown & focus timer** | An editable, rule-based way to divide an overwhelming task into smaller steps, paired with a focus timer. |
+| **Urge surfing** | A visual timer for noticing an urge and delaying a response in small increments, with an optional anxiety reflection. |
+| **Worry time** | A place to park worries and choose a daily 15-minute window to return to them. |
+| **Emotion & body check** | Select feelings and mark sensations on an interactive body map. |
+| **TIPP skills** | A step-by-step walkthrough of distress-tolerance options, including gentler alternatives and skip choices. |
+| **Dopamine menu** | An editable menu of restorative activities grouped into starters, mains, sides, and desserts. |
+| **A small good thing & free writing** | Keep a tiny win, a compassionate moment, a gratitude reflection, or an open-ended journal entry. |
 
-Enter the install and build commands in Vercel's configuration fields; Vercel runs them during deployment. The current app does not require a database, API key, or application server.
+### Make the space your own
 
-Node.js 24.x is currently Vercel's default. If needed, select **24.x** under the project's **Settings → Build and Deployment → Node.js Version** and redeploy. See Vercel's [Node.js version guide](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions).
+- Choose focus areas without being asked to adopt a clinical label.
+- Receive dashboard suggestions based on your focus and latest energy or anxiety check-in.
+- Grow self-care seeds through engagement, without streak resets or penalties for missed days.
+- Use **My space** to move between your overview, mood insights, journal, safety plan, and settings.
 
-### 4. Deploy and open the site
+### Notice patterns over time
 
-1. Select **Deploy**.
-2. Wait for the installation and build to finish. If a step fails, open the deployment's build logs and check the settings above.
-3. When the deployment is ready, select **Visit** and open its production URL.
-4. Use the assigned Vercel domain to share the app. A custom domain is optional.
+- Log mood, energy, anxiety, sleep hours, emotions, triggers, and medication adherence.
+- Explore mood, sleep, and anxiety charts across **7, 30, or 90 days**, with a table alternative.
+- View a descriptive sleep–anxiety association when enough varied records are available. Patterns do not establish cause or provide a diagnosis.
+- Explore clearly labeled sample data separately from personal records.
+- Export personal mood records as **CSV**, create a printable summary with **Print / Save PDF**, or download a readable JSON copy of your records.
 
-The framework integration is described in the official [Vite on Vercel guide](https://vercel.com/docs/frameworks/frontend/vite).
+### Read, reflect, and reach support
 
-### 5. Check the deployed app
+- Browse **The quiet library** for short notes on worries, comfortable breathing, thought reflections, and sleep, with links to NHS source guidance.
+- Open **I need support** from the header for grounding and your safety plan.
+- Build a personal safety plan covering warning signs, coping strategies, supportive people and places, professional support, a safer environment, and a trusted contact.
+- Use a saved trusted-contact number for one-tap calling. The support panel currently includes an India-specific resource and general guidance for other countries; it does not detect your location.
 
-1. Open the homepage on a desktop and a phone. Start and pause a quiet minute; sound should remain off until selected.
-2. Open the toolkit and try a grounding or thought-reflection flow.
-3. Open **My space**, add a fictional check-in or journal entry, and confirm it appears in the relevant screen.
-4. If you want to check persistence, enable the encrypted vault using a test passphrase, reload, and unlock it again. Erase your test records afterward from Settings.
-5. Open **I need support** and confirm the safety and grounding options remain accessible.
+## Comfort and accessibility
 
-Use the stable production URL for ongoing use. Records are saved in the visitor's browser, scoped to that browser profile and site address. A different preview URL, custom domain, browser, or device does not automatically share an existing vault. There is no cloud sync or passphrase recovery.
+Sereinly includes responsive desktop and mobile layouts, light and dark themes, reduced-motion support, a high-contrast option, and a readable-font setting with wider spacing. Interactive controls support keyboard use, and dialogs have accessible labels.
 
-### 6. Publish future updates
+The opening page has passed automated accessibility checks in light and dark themes. This does not certify every screen or replace manual testing with assistive technologies.
 
-Confirm that the Vercel project's production branch is `main`. Subsequent pushes or merges to that branch trigger new production deployments through the GitHub integration; other branches can receive preview deployments. See [Vercel for GitHub](https://vercel.com/docs/git/vercel-for-github).
+## Your privacy and your records
 
-The repository's [GitHub Actions](.github/workflows/ci.yml) check the code and save test reports. Vercel handles hosting through its own integration. These are separate processes; this repository does not configure deployment to wait for GitHub Actions to pass.
+- **No account required:** the current app has no cloud sync or analytics service configured.
+- **Session-only by default:** personal records stay in the current tab until encrypted saving is enabled. Closing or reloading can lose unsaved session records.
+- **Optional encrypted vault:** protect saved records on your device using a passphrase. The app uses AES-256-GCM encryption and does not store the passphrase.
+- **Your browser, your site address:** records do not automatically move between browsers, devices, or different website addresses.
+- **Exports are readable:** CSV, PDF, and JSON copies contain personal information and should be shared deliberately.
 
-## Deployment troubleshooting
+There is no passphrase recovery. The current interface can export a JSON copy but does not include a JSON import screen. See the [handbook's privacy explanation](HANDBOOK.md#where-personal-information-goes) for details.
 
-| Problem | Check |
-| --- | --- |
-| The repository is not listed in Vercel. | Confirm the connected GitHub account and grant the Vercel GitHub app access to `subhakar1999/Sereinly`. |
-| Vercel cannot find `package.json`. | Set the root directory to the repository root. |
-| The build cannot find its output. | Use `npm run build` and output directory `dist`. Read the first error in the build logs. |
-| The build reports an unsupported Node version. | Select Node.js **24.x** in the project settings, then redeploy. |
-| A change is not showing. | Check that the production deployment uses the latest `main` commit and that the deployment succeeded. |
-| Records are missing on a new URL. | Return to the browser and exact site address where the vault was created. Deploying does not move personal records between addresses. |
+## About the project
 
-## Documentation
+Sereinly is built with **React, TypeScript, Vite, Tailwind CSS, Lucide icons, Framer Motion, and Recharts**. Its exercises and records run in the browser; the task breakdown is rule-based rather than an AI service.
 
-- [Sereinly handbook](HANDBOOK.md): understand the code, data flow, privacy, and GitHub automation.
-- [Optional local development README](README.local.md): installation, local previews, tests, screenshots, and development troubleshooting.
+- [Sereinly handbook](HANDBOOK.md): a plain-language guide to the code, data flow, privacy, and GitHub automation.
+- [Optional local development README](README.local.md): setup, previews, tests, and development troubleshooting for contributors.
 
-Sereinly is a self-help companion, not a replacement for clinical diagnosis, treatment, or emergency care. Deployment does not establish clinical, security, or accessibility certification. See the [product notes and current limits](HANDBOOK.md#product-notes-and-current-limits) before planning a public healthcare launch.
+**Sereinly is a self-help companion, not a replacement for clinical diagnosis, treatment, or emergency care.** It does not diagnose conditions, prescribe medication changes, or guarantee immediate relief. For further context, see the [product notes and current limits](HANDBOOK.md#product-notes-and-current-limits).

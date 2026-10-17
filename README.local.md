@@ -1,6 +1,6 @@
 # Optional local development — Sereinly
 
-This guide is for people who want to run or change the app on their own computer. You can deploy using only the Vercel website by following the [main README](README.md#deploy-to-vercel).
+This guide is for people who want to run or change the app on their own computer. To use the hosted app, visit [sereinly.vercel.app](https://sereinly.vercel.app/). The [main README](README.md) describes the app and its features.
 
 ## Get the project
 
@@ -82,4 +82,4 @@ The standalone scripts `scripts/capture-ui.mjs` and `scripts/audit-accessibility
 
 The existing `.gitignore` excludes installed packages, builds, browser binaries, screenshots, test reports, and `.env` files. Commit source changes and intentional dependency updates, including both package files. Use fictional personal records when testing or sharing screenshots.
 
-For the code map and editing examples, read the [handbook](HANDBOOK.md). For hosting, return to the [Vercel deployment guide](README.md).
+For the code map and editing examples, read the [handbook](HANDBOOK.md). For the app overview and live website, return to the [main README](README.md).

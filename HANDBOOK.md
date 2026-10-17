@@ -11,7 +11,7 @@ Sereinly is a browser app. Its screens, exercises, charts, and optional encrypte
 | I want to… | Start here |
 | --- | --- |
 | Understand what people can do in the app | [A short tour](#a-short-tour) |
-| Deploy the app to Vercel | [Deployment README](README.md#deploy-to-vercel) |
+| Open the live app | [sereinly.vercel.app](https://sereinly.vercel.app/) |
 | Run the project on my computer (optional) | [Local development README](README.local.md) |
 | Know what each file does | [A map of the code](#a-map-of-the-code) |
 | Understand how a click becomes a saved record | [Follow one interaction](#follow-one-interaction) |
@@ -37,9 +37,9 @@ The **I need support** button remains in the header. It opens grounding and safe
 
 Charts initially show clearly labeled sample records. Those examples help people explore the interface; they are not observations about the person using it. Personal records are separate.
 
-## Deploy or develop
+## Use the app or explore the code
 
-Follow the [main README](README.md#deploy-to-vercel) to deploy through Vercel in your browser. If you prefer to work on your computer, installation, local previews, and testing instructions live in the [optional local development README](README.local.md).
+Open [Sereinly](https://sereinly.vercel.app/) to use the app. The [main README](README.md) describes its features. For contributors who prefer to work on their computer, installation, local previews, and testing instructions live in the [optional local development README](README.local.md).
 
 ## A map of the code
 
@@ -47,7 +47,7 @@ Think of the app as a small building. React components are its rooms, styles are
 
 | File or folder | Its job | Open it when… |
 | --- | --- | --- |
-| `README.md` | Guides deployment through the Vercel website. | You want to publish or update the hosted app. |
+| `README.md` | Introduces Sereinly, its live website, and current features. | You want to understand what the app offers. |
 | `README.local.md` | Holds optional installation, preview, and testing instructions. | You want to work on your own computer. |
 | `index.html` | The browser's starting document, page title, description, and favicon link. | You want to change the browser-tab name or description. |
 | `src/main.tsx` | Starts React and coordinates navigation, dialogs, personal records, settings, and the self-help modules. | You want to understand an exercise or personal-space behavior. |
@@ -256,7 +256,7 @@ Installation, browser setup, and local-server problems are covered in [local tro
 | Artifact | A file or folder saved by an automation run for later download. |
 | Local-first | Personal records stay on the user's device in the current implementation. |
 
-For deployment steps, see [README.md](README.md). For privacy and product limits, continue to the product notes below. For the automation conventions used here, see the official [GitHub setup-node documentation](https://github.com/actions/setup-node), [Playwright CI guide](https://playwright.dev/docs/ci), and [Playwright test-server guide](https://playwright.dev/docs/test-webserver).
+For the app overview and live website, see [README.md](README.md). For privacy and product limits, continue to the product notes below. For the automation conventions used here, see the official [GitHub setup-node documentation](https://github.com/actions/setup-node), [Playwright CI guide](https://playwright.dev/docs/ci), and [Playwright test-server guide](https://playwright.dev/docs/test-webserver).
 
 ## Product notes and current limits
 
