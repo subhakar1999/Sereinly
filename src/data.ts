@@ -1,0 +1,17 @@
+export type Mood={date:string;mood:number;sleep:number;energy:number;anxiety:number;emotions:string;triggers:string;medication:string};
+export type Entry={date:string;kind:string;values:string[]};
+export type Data={name:string;focus:string[];moods:Mood[];entries:Entry[];seeds:number;done:string[];safety:string[];worries:string[];worryTime:string;dark:boolean;reduced:boolean;contrast:boolean;readable:boolean};
+export const initial:Data={name:'',focus:['Finding calm'],moods:[],entries:[],seeds:0,done:[],safety:Array(7).fill(''),worries:[],worryTime:'17:00',dark:false,reduced:false,contrast:false,readable:false};
+export const sample:Mood[]=Array.from({length:90},(_,i)=>{const d=new Date();d.setDate(d.getDate()-89+i);return{date:d.toISOString(),mood:[5,6,5,7,6,8,7][i%7],sleep:[6,7,6.5,8,7.5,8,7][i%7],energy:5,anxiety:[6,4,5,3,4,2,3][i%7],emotions:'Hopeful',triggers:'',medication:'Not tracked'}});
+const b64=(v:Uint8Array)=>btoa(String.fromCharCode(...v));
+const decode=(s:string)=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function derive(password:string,salt:Uint8Array){const base=await crypto.subtle.importKey('raw',new TextEncoder().encode(password),'PBKDF2',false,['deriveKey']);return crypto.subtle.deriveKey({name:'PBKDF2',salt:salt as BufferSource,iterations:310000,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);}
+export async function seal(data:Data,password:string){const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));const cipher=await crypto.subtle.encrypt({name:'AES-GCM',iv},await derive(password,salt),new TextEncoder().encode(JSON.stringify(data)));return JSON.stringify({version:1,salt:b64(salt),iv:b64(iv),cipher:b64(new Uint8Array(cipher))});}
+export async function unseal(raw:string,password:string):Promise<Data>{const v=JSON.parse(raw);return JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:decode(v.iv)},await derive(password,decode(v.salt)),decode(v.cipher))));}
+export function csv(rows:Mood[]){const q=(v:unknown)=>'"'+String(v).replaceAll('"','""').replace(/^[=+@-]/,"'$&")+'"';return [['Date','Mood','Sleep hours','Energy','Anxiety','Emotions','Triggers','Medication'],...rows.map(m=>[m.date,m.mood,m.sleep,m.energy,m.anxiety,m.emotions,m.triggers,m.medication])].map(r=>r.map(q).join(',')).join('\r\n');}
+export function download(name:string,body:string,type:string){const url=URL.createObjectURL(new Blob([body],{type}));const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+export function sleepAnxietyCorrelation(rows:Mood[]):number|null{if(rows.length<3)return null;const n=rows.length,x=rows.reduce((a,b)=>a+b.sleep,0)/n,y=rows.reduce((a,b)=>a+b.anxiety,0)/n;const numerator=rows.reduce((a,b)=>a+(b.sleep-x)*(b.anxiety-y),0);const denominator=Math.sqrt(rows.reduce((a,b)=>a+(b.sleep-x)**2,0)*rows.reduce((a,b)=>a+(b.anxiety-y)**2,0));return denominator?numerator/denominator:null;}
+type VaultStorage=Pick<Storage,'getItem'|'setItem'|'removeItem'>;
+export function readVault(storage:VaultStorage=localStorage){return storage.getItem('sereinly-v1')??storage.getItem('mindhaven-v1');}
+export function writeVault(raw:string,storage:VaultStorage=localStorage){storage.setItem('sereinly-v1',raw);storage.removeItem('mindhaven-v1');}
+export function eraseVault(storage:VaultStorage=localStorage){storage.removeItem('sereinly-v1');storage.removeItem('mindhaven-v1');}
