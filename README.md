@@ -1,73 +1,79 @@
 # Sereinly
 
-A responsive React + TypeScript self-help application with a spacious arrival page, a gentle interactive pause, an explorable support map, a sourced knowledge library, a private dashboard and encrypted local records. This is a local implementation; it has not been deployed or clinically validated.
+A gentle mental-health self-help companion with breathing and grounding tools, a quiet library, mood reflections, journaling, and an optional encrypted personal vault.
 
-New to the project? Start with the [Sereinly handbook](HANDBOOK.md): a plain-language tour of the app, code, storage, common edits, testing, and GitHub automation.
+## Deploy to Vercel
 
-## Run
+Deploy directly from GitHub using the Vercel website. You can complete these steps in your browser.
 
-Use Node.js 24 (also recorded in `.nvmrc`) and npm. Other supported versions are listed in `package.json`. On Windows with PowerShell script restrictions, use `npm.cmd`.
+### 1. Sign in to Vercel
 
-```sh
-npm ci
-npm run dev
-npm run typecheck
-npm run build
-npm test
-npm run test:e2e
-```
+Open [Vercel](https://vercel.com/) and sign in with GitHub. For an eligible personal, non-commercial project, choose the free Hobby plan. It has usage limits; commercial projects require a suitable paid plan. See the current [Hobby plan details](https://vercel.com/docs/plans/hobby).
 
-Browser tests automatically start their server and use locally installed Google Chrome. In CI, they start a production preview and use Playwright's bundled Chromium. `PLAYWRIGHT_CHANNEL` can override the browser channel for a particular environment. The privacy/crypto tests run without a browser. `node scripts/capture-ui.mjs` captures desktop and mobile previews under ignored `.qa/`; `node scripts/audit-accessibility.mjs` checks the arrival page in light and dark themes. Those standalone scripts still need a running development server and installed Chrome.
+### 2. Import the repository
 
-## GitHub automation
+1. In the Vercel dashboard, select **Add New → Project**.
+2. Under **Import Git Repository**, find [subhakar1999/Sereinly](https://github.com/subhakar1999/Sereinly).
+3. If it is missing, use the GitHub account or app-permissions option to grant Vercel access to this repository.
+4. Select **Import** and choose a project name, such as `sereinly` if available.
 
-[App checks](.github/workflows/ci.yml) runs on pushes, pull requests, and manual starts. It installs locked dependencies, checks types, runs unit tests, builds the site, and runs browser/accessibility tests against the build. Reports and successful production files are kept as downloadable artifacts for seven days.
+### 3. Confirm the build settings
 
-[Dependency audit](.github/workflows/dependency-audit.yml) checks for known dependency vulnerabilities weekly and on manual starts. High or critical findings fail the audit. [Dependabot](.github/dependabot.yml) proposes weekly dependency and Actions updates.
+Vercel should detect Vite. Use these settings for this repository:
 
-The workflows need no application secrets and do not deploy the site. They start working after these files are pushed to a GitHub repository with Actions enabled. See the [handbook](HANDBOOK.md#what-github-actions-does) for setup and how to read results.
+| Setting | Value |
+| --- | --- |
+| Framework preset | **Vite** |
+| Root directory | Repository root (`./`); do not select `src` |
+| Install command | `npm ci` |
+| Build command | `npm run build` |
+| Output directory | `dist` |
+| Node.js version | **24.x** |
+| Environment variables | None required for the current app |
 
-## Structure
+Enter the install and build commands in Vercel's configuration fields; Vercel runs them during deployment. The current app does not require a database, API key, or application server.
 
-```text
-src/main.tsx       Application, accessible dialogs, navigation, interactive modules
-src/Welcome.tsx    Arrival page, breathing bloom, local rain audio, support map, library
-src/SiteHeader.tsx Responsive site navigation and persistent support access
-src/wellbeing.ts   Original library notes with NHS source links and support-map paths
-src/data.ts        Typed schema, sample records, AES-GCM vault, CSV export
-src/data.test.ts   Encryption, authentication, tamper detection, CSV tests
-src/style.css     Responsive design, themes, motion and print styles
-src/welcome.css   Sereinly visual identity, arrival and library layouts
-tests/            Browser navigation, vault migration and accessibility checks
-vite.config.ts    React and Tailwind integration
-```
+Node.js 24.x is currently Vercel's default. If needed, select **24.x** under the project's **Settings → Build and Deployment → Node.js Version** and redeploy. See Vercel's [Node.js version guide](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions).
 
-## Data schema and persistence
+### 4. Deploy and open the site
 
-`Data` contains name, nonclinical focus preferences, mood records, journal records, self-care seeds, completed actions, seven safety-plan fields, parked worries, worry schedule, and accessibility preferences. `Mood` stores ISO date, mood (1–10), energy (1–10), anxiety (0–10), sleep hours (0–24), emotions, triggers, and medication adherence. `Entry` stores ISO date, kind, and ordered reflection values. See `src/data.ts` for the complete schema.
+1. Select **Deploy**.
+2. Wait for the installation and build to finish. If a step fails, open the deployment's build logs and check the settings above.
+3. When the deployment is ready, select **Visit** and open its production URL.
+4. Use the assigned Vercel domain to share the app. A custom domain is optional.
 
-Data stays in memory until a user enables saving. The `sereinly-v1` localStorage record is a versioned envelope containing base64 salt, IV, and ciphertext. AES-256-GCM authenticates ciphertext, PBKDF2-SHA256 derives the key with 310,000 iterations, and each save uses a fresh random 16-byte salt and 12-byte IV. No password or key is persisted. There is no recovery. Use HTTPS or localhost for Web Crypto. No third-party analytics, remote assets, cloud database, or authentication service is configured. Locking removes visible session data; browser memory cannot be securely wiped by JavaScript. An unlocked device or malicious scripts can access decrypted data. Exports intentionally contain plaintext and must be handled carefully.
+The framework integration is described in the official [Vite on Vercel guide](https://vercel.com/docs/frameworks/frontend/vite).
 
-Existing vaults from the previous app name remain readable. On successful unlock, data is encrypted and written under the Sereinly storage key before the legacy record is removed. A failed write leaves the legacy vault intact. The previous name remains only in the migration code and tests, not the user interface. Downloads, package metadata, document title, favicon, privacy copy and printed content use Sereinly.
+### 5. Check the deployed app
 
-## Design and naming research
+1. Open the homepage on a desktop and a phone. Start and pause a quiet minute; sound should remain off until selected.
+2. Open the toolkit and try a grounding or thought-reflection flow.
+3. Open **My space**, add a fictional check-in or journal entry, and confirm it appears in the relevant screen.
+4. If you want to check persistence, enable the encrypted vault using a test passphrase, reload, and unlock it again. Erase your test records afterward from Settings.
+5. Open **I need support** and confirm the safety and grounding options remain accessible.
 
-The reference at https://mindheaven.life/ was inspected on 17 October 2026. The redesign adapts its spacious typography, interactive network exploration and knowledge-library concept to a self-help context. The support map opens actual exercises; library notes are original summaries that link to NHS guidance. It does not invent researchers, affiliations, AI capabilities, clinical outcomes or supplement claims.
+Use the stable production URL for ongoing use. Records are saved in the visitor's browser, scoped to that browser profile and site address. A different preview URL, custom domain, browser, or device does not automatically share an existing vault. There is no cloud sync or passphrase recovery.
 
-The new name is **Sereinly**. Exact-name and app/brand web searches on 17 October 2026 found no obvious existing exact-name app or brand. Search visibility does not establish legal uniqueness; trademark and domain availability have not been verified.
+### 6. Publish future updates
 
-The opening experience offers a quiet minute without an account or a mandatory check-in. Breathing visuals only animate after an explicit start. Sound is off by default and synthesized in the browser without downloads. Reduced-motion preferences disable the bloom animation while keeping text guidance available. The user can pause, leave, switch to sensory grounding, or open support at any time. This is designed to reduce pressure; immediate relief is not promised.
+Confirm that the Vercel project's production branch is `main`. Subsequent pushes or merges to that branch trigger new production deployments through the GitHub integration; other branches can receive preview deployments. See [Vercel for GitHub](https://vercel.com/docs/git/vercel-for-github).
 
-Sample mood data is separate from personal records; sample data is never exported as personal data. An example CBT record is available from the empty journal. The body map and emotion choices work without stored data. Browser Print / Save PDF exports the personal summary and CBT records; CSV exports personal mood records. Cloud sync is optional in the brief and is not implemented. No API secrets are needed.
+The repository's [GitHub Actions](.github/workflows/ci.yml) check the code and save test reports. Vercel handles hosting through its own integration. These are separate processes; this repository does not configure deployment to wait for GitHub Actions to pass.
 
-## Clinical and product boundaries
+## Deployment troubleshooting
 
-The task breakdown is an editable rule-based guide, not an AI service. Worry time is a user-controlled compartment with a daily time setting, not an access lock or background notification. Focus and urge timers run while the tab is active; browsers may throttle background timers. Haptics depend on browser support. The emotion map is an emotion-selection aid, not a diagnostic assessment. TIPP uses gentler alternatives and explicit skip choices; it does not prescribe intense exercise or extreme cold. No app behavior diagnoses bipolar disorder, predicts risk, or changes medication. Sereinly is not emergency care.
+| Problem | Check |
+| --- | --- |
+| The repository is not listed in Vercel. | Confirm the connected GitHub account and grant the Vercel GitHub app access to `subhakar1999/Sereinly`. |
+| Vercel cannot find `package.json`. | Set the root directory to the repository root. |
+| The build cannot find its output. | Use `npm run build` and output directory `dist`. Read the first error in the build logs. |
+| The build reports an unsupported Node version. | Select Node.js **24.x** in the project settings, then redeploy. |
+| A change is not showing. | Check that the production deployment uses the latest `main` commit and that the deployment succeeded. |
+| Records are missing on a new URL. | Return to the browser and exact site address where the vault was created. Deploying does not move personal records between addresses. |
 
-The crisis panel uses an explicit country choice, defaults to India based on the requested locale, and does not request geolocation. Tele-MANAS was verified through the supplied hotline service on 17 October 2026. Other countries currently receive local emergency/provider guidance rather than unverified telephone numbers.
+## Documentation
 
-Clinical references used for cautious breathing instructions and safety-plan structure:
-- NHS breathing guidance: https://www.nhs.uk/mental-health/self-help/guides-tools-and-activities/breathing-exercises-for-stress/
-- VA safety plan: https://www.ptsd.va.gov/appvid/mobile/safety_plan_app.asp
+- [Sereinly handbook](HANDBOOK.md): understand the code, data flow, privacy, and GitHub automation.
+- [Optional local development README](README.local.md): installation, local previews, tests, screenshots, and development troubleshooting.
 
-Before a public healthcare launch, obtain clinical content review, an independent security review, accessibility testing with assistive technologies, and jurisdiction-specific privacy/legal review. The arrival page passes automated axe WCAG A/AA checks in light and dark themes; this does not certify the entire application or replace manual assistive-technology testing. Production healthcare readiness has not been certified.
+Sereinly is a self-help companion, not a replacement for clinical diagnosis, treatment, or emergency care. Deployment does not establish clinical, security, or accessibility certification. See the [product notes and current limits](HANDBOOK.md#product-notes-and-current-limits) before planning a public healthcare launch.

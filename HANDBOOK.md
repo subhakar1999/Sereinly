@@ -11,13 +11,14 @@ Sereinly is a browser app. Its screens, exercises, charts, and optional encrypte
 | I want to… | Start here |
 | --- | --- |
 | Understand what people can do in the app | [A short tour](#a-short-tour) |
-| Run the project on my computer | [Get it running](#get-it-running) |
+| Deploy the app to Vercel | [Deployment README](README.md#deploy-to-vercel) |
+| Run the project on my computer (optional) | [Local development README](README.local.md) |
 | Know what each file does | [A map of the code](#a-map-of-the-code) |
 | Understand how a click becomes a saved record | [Follow one interaction](#follow-one-interaction) |
 | Understand privacy and storage | [Where personal information goes](#where-personal-information-goes) |
 | Change words, colors, or library content | [Make a small change](#make-a-small-change) |
 | Understand GitHub's automatic checks | [What GitHub Actions does](#what-github-actions-does) |
-| Fix a setup or test problem | [When something goes wrong](#when-something-goes-wrong) |
+| Fix an installation or local test problem | [Local troubleshooting](README.local.md#local-troubleshooting) |
 
 ## A short tour
 
@@ -36,36 +37,9 @@ The **I need support** button remains in the header. It opens grounding and safe
 
 Charts initially show clearly labeled sample records. Those examples help people explore the interface; they are not observations about the person using it. Personal records are separate.
 
-## Get it running
+## Deploy or develop
 
-Use **Node.js 24** and npm. Node.js runs the development tools; npm installs the libraries the app uses. The `.nvmrc` file tells compatible version managers which Node version this project recommends. Ordinary app visitors do not need either tool.
-
-Open a terminal in the project folder and run:
-
-```sh
-npm ci
-npm run dev
-```
-
-Open the local address printed in the terminal. Editing a source file normally updates the browser automatically. Stop the server with **Ctrl+C** when finished.
-
-On Windows, if PowerShell blocks `npm.ps1`, use `npm.cmd` in place of `npm`:
-
-```powershell
-npm.cmd ci
-npm.cmd run dev
-```
-
-`npm ci` installs the exact dependency versions recorded in `package-lock.json`. Keep that file with the project; it helps your computer and GitHub use the same libraries.
-
-To inspect the production build:
-
-```sh
-npm run build
-npm run preview
-```
-
-The build creates the `dist/` folder. Preview serves those finished files locally. Development and preview servers are local tools, not public deployments.
+Follow the [main README](README.md#deploy-to-vercel) to deploy through Vercel in your browser. If you prefer to work on your computer, installation, local previews, and testing instructions live in the [optional local development README](README.local.md).
 
 ## A map of the code
 
@@ -73,6 +47,8 @@ Think of the app as a small building. React components are its rooms, styles are
 
 | File or folder | Its job | Open it when… |
 | --- | --- | --- |
+| `README.md` | Guides deployment through the Vercel website. | You want to publish or update the hosted app. |
+| `README.local.md` | Holds optional installation, preview, and testing instructions. | You want to work on your own computer. |
 | `index.html` | The browser's starting document, page title, description, and favicon link. | You want to change the browser-tab name or description. |
 | `src/main.tsx` | Starts React and coordinates navigation, dialogs, personal records, settings, and the self-help modules. | You want to understand an exercise or personal-space behavior. |
 | `src/Welcome.tsx` | Builds the arrival page, breathing flower, rain audio, support map, library, and reading dialogs. | You want to change the opening experience. |
@@ -216,26 +192,9 @@ Start with the types in `src/data.ts`, then update the initial values, relevant 
 
 ## Check your work
 
-The project has different checks because different mistakes need different tools.
+GitHub Actions runs type checks, unit tests, a production build, browser journeys, and automated homepage accessibility checks when code changes are pushed. Read the run in the repository’s Actions tab. An automated pass does not certify every screen or replace testing with assistive technologies.
 
-| Command | What it checks |
-| --- | --- |
-| `npm run typecheck` | Inconsistent TypeScript types and unused code in the app source. |
-| `npm test` | Small code-level checks, especially privacy, exports, and migration. |
-| `npm run build` | Whether TypeScript and Vite can produce the finished site. |
-| `npm run test:e2e` | Real browser interactions, including vault use, mobile navigation, and homepage accessibility checks. |
-
-Browser tests start their own server and stop it when finished. Locally they use installed Google Chrome and can reuse a development server already running at `http://127.0.0.1:5173`. You do not need to start a separate server just for these tests.
-
-For an HTML summary after a browser-test run:
-
-```sh
-npx playwright show-report
-```
-
-Failures can also produce screenshots and traces in `test-results/`. A trace is a replayable record of the automated test's actions. The tests use fictional information and isolated browser contexts.
-
-The standalone scripts `scripts/capture-ui.mjs` and `scripts/audit-accessibility.mjs` still need a running development server and installed Chrome. The first captures desktop and mobile images; the second prints accessibility findings. The test suite is the automation that fails when its accessibility assertions fail. An automated pass does not certify every screen or replace testing with assistive technologies.
+For commands to run these checks on your computer, view the [optional testing guide](README.local.md#check-your-work).
 
 ## What GitHub Actions does
 
@@ -274,16 +233,12 @@ An audit failure means the registry reports a dependency issue. Review the affec
 
 | What you see | What to try |
 | --- | --- |
-| PowerShell says `npm.ps1` cannot be loaded. | Use `npm.cmd` instead. No PowerShell policy change is needed. |
-| npm reports an unsupported Node version. | Use Node 24. The exact accepted range is recorded in `package.json`. |
-| `npm ci` says the package files disagree. | If you intentionally changed dependencies, run `npm install`, then include both package files in the change. Otherwise restore the matching lockfile. |
-| A local browser test cannot find Chrome. | Install Google Chrome, or run `npx playwright install chrome`, then retry. This installation may need operating-system permission. |
-| Port 5173 is busy. | Stop an old development or preview server. CI deliberately refuses to reuse an existing server. |
-| The CI preview cannot find the production files. | Run `npm run build` before CI-mode browser tests. The supplied workflow already does this. |
 | Records disappear after a reload. | Check whether they were session-only. If a vault exists, unlock it in Settings. |
 | A vault will not unlock. | Check the passphrase and that you are using the same browser profile and site address. There is no recovery service. |
 | A style edit has no visible effect. | Check whether a later rule in `welcome.css` overrides it, or whether the current screen uses a different class. |
 | A GitHub workflow has not appeared. | Confirm `.github/workflows/` was pushed to the repository and Actions is enabled. This project folder itself does not create a remote repository. |
+
+Installation, browser setup, and local-server problems are covered in [local troubleshooting](README.local.md#local-troubleshooting).
 
 ## A few words you will see
 
@@ -301,4 +256,36 @@ An audit failure means the registry reports a dependency issue. Review the affec
 | Artifact | A file or folder saved by an automation run for later download. |
 | Local-first | Personal records stay on the user's device in the current implementation. |
 
-For the complete privacy and product limits, see [README.md](README.md). For the automation conventions used here, see the official [GitHub setup-node documentation](https://github.com/actions/setup-node), [Playwright CI guide](https://playwright.dev/docs/ci), and [Playwright test-server guide](https://playwright.dev/docs/test-webserver).
+For deployment steps, see [README.md](README.md). For privacy and product limits, continue to the product notes below. For the automation conventions used here, see the official [GitHub setup-node documentation](https://github.com/actions/setup-node), [Playwright CI guide](https://playwright.dev/docs/ci), and [Playwright test-server guide](https://playwright.dev/docs/test-webserver).
+
+## Product notes and current limits
+
+### Data schema and persistence
+
+`Data` contains name, nonclinical focus preferences, mood records, journal records, self-care seeds, completed actions, seven safety-plan fields, parked worries, worry schedule, and accessibility preferences. `Mood` stores ISO date, mood (1–10), energy (1–10), anxiety (0–10), sleep hours (0–24), emotions, triggers, and medication adherence. `Entry` stores ISO date, kind, and ordered reflection values. See `src/data.ts` for the complete schema.
+
+Data stays in memory until a user enables saving. The `sereinly-v1` localStorage record is a versioned envelope containing base64 salt, IV, and ciphertext. AES-256-GCM authenticates ciphertext, PBKDF2-SHA256 derives the key with 310,000 iterations, and each save uses a fresh random 16-byte salt and 12-byte IV. No password or key is persisted. There is no recovery. Use HTTPS or localhost for Web Crypto. No third-party analytics, remote assets, cloud database, or authentication service is configured. Locking removes visible session data; browser memory cannot be securely wiped by JavaScript. An unlocked device or malicious scripts can access decrypted data. Exports intentionally contain plaintext and must be handled carefully.
+
+Existing vaults from the previous app name remain readable. On successful unlock, data is encrypted and written under the Sereinly storage key before the legacy record is removed. A failed write leaves the legacy vault intact. The previous name remains only in the migration code and tests, not the user interface. Downloads, package metadata, document title, favicon, privacy copy and printed content use Sereinly.
+
+### Design and naming research
+
+The reference at https://mindheaven.life/ was inspected on 17 October 2026. The redesign adapts its spacious typography, interactive network exploration and knowledge-library concept to a self-help context. The support map opens actual exercises; library notes are original summaries that link to NHS guidance. It does not invent researchers, affiliations, AI capabilities, clinical outcomes or supplement claims.
+
+The new name is **Sereinly**. Exact-name and app/brand web searches on 17 October 2026 found no obvious existing exact-name app or brand. Search visibility does not establish legal uniqueness; trademark and domain availability have not been verified.
+
+The opening experience offers a quiet minute without an account or a mandatory check-in. Breathing visuals only animate after an explicit start. Sound is off by default and synthesized in the browser without downloads. Reduced-motion preferences disable the bloom animation while keeping text guidance available. The user can pause, leave, switch to sensory grounding, or open support at any time. This is designed to reduce pressure; immediate relief is not promised.
+
+Sample mood data is separate from personal records; sample data is never exported as personal data. An example CBT record is available from the empty journal. The body map and emotion choices work without stored data. Browser Print / Save PDF exports the personal summary and CBT records; CSV exports personal mood records. Cloud sync is optional in the brief and is not implemented. No API secrets are needed.
+
+### Clinical and product boundaries
+
+The task breakdown is an editable rule-based guide, not an AI service. Worry time is a user-controlled compartment with a daily time setting, not an access lock or background notification. Focus and urge timers run while the tab is active; browsers may throttle background timers. Haptics depend on browser support. The emotion map is an emotion-selection aid, not a diagnostic assessment. TIPP uses gentler alternatives and explicit skip choices; it does not prescribe intense exercise or extreme cold. No app behavior diagnoses bipolar disorder, predicts risk, or changes medication. Sereinly is not emergency care.
+
+The crisis panel uses an explicit country choice, defaults to India based on the requested locale, and does not request geolocation. Tele-MANAS was verified through the supplied hotline service on 17 October 2026. Other countries currently receive local emergency/provider guidance rather than unverified telephone numbers.
+
+Clinical references used for cautious breathing instructions and safety-plan structure:
+- NHS breathing guidance: https://www.nhs.uk/mental-health/self-help/guides-tools-and-activities/breathing-exercises-for-stress/
+- VA safety plan: https://www.ptsd.va.gov/appvid/mobile/safety_plan_app.asp
+
+Before a public healthcare launch, obtain clinical content review, an independent security review, accessibility testing with assistive technologies, and jurisdiction-specific privacy/legal review. The arrival page passes automated axe WCAG A/AA checks in light and dark themes; this does not certify the entire application or replace manual assistive-technology testing. Production healthcare readiness has not been certified.
